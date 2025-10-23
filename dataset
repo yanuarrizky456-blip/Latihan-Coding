@@ -21,9 +21,11 @@ print(data.isnull().sum())
 data = data.fillna(data.mean(numeric_only=True))
 print(data.isnull().sum())
 
-features = ['OverallQual','GrLivArea','GarageCars','GarageArea','TotalBsmtSF','FullBath','YearBuilt']
+features = ['release_year', 'cpu_tier', 'cpu_cores', 'cpu_threads', 'cpu_base_ghz', 'cpu_boost_ghz',
+    'gpu_tier', 'vram_gb', 'ram_gb', 'storage_gb', 'refresh_hz', 'battery_wh',
+    'charger_watts', 'psu_watts', 'weight_kg', 'warranty_months']
 x = data[features]
-y = data['SalePrice']
+y = data['price']
 
 discretizer = KBinsDiscretizer(n_bins=4, encode='ordinal', strategy='quantile')
 y_binned = discretizer.fit_transform(y.values.reshape(-1, 1)).flatten()
@@ -65,4 +67,5 @@ sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=labels, 
 plt.xlabel('Predicted')
 plt.ylabel('Actual')
 plt.title('Confusion Matrix')
+plt.show()
 print(classification_report(y_test, y_pred))
